@@ -46,18 +46,18 @@ import androidx.compose.ui.unit.sp
 data class Expense(
     var id: Int,
     var category: String,
-    var expenseValue: Int,
+    var expenseString: String,
     var expenseDescription: String
 )
 
 @Composable
 fun OverviewScreen() {
     var expenseList by remember { mutableStateOf(listOf<Expense>()) }
-    var currentBalance by remember { mutableStateOf(0) }
+    var currentBalance by remember { mutableStateOf("0") }
     var categoryOption by remember { mutableStateOf("") }
-    var newValue by remember { mutableStateOf("") }
+    var newExpenseValue by remember { mutableStateOf("") }
     var addExpenseBox by remember { mutableStateOf(false) }
-    var valueSpent by remember { mutableStateOf(0) }
+    var valueSpent by remember { mutableStateOf("0") }
 
     Column(
         modifier = Modifier
@@ -114,7 +114,7 @@ fun OverviewScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                Text("Spent: $valueSpent", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                Text("Spent: €$valueSpent", fontSize = 18.sp, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(onClick = {
                     addExpenseBox = true
@@ -143,21 +143,31 @@ fun OverviewScreen() {
 
     if (addExpenseBox) {
         AlertDialog(
-            onDismissRequest = { addExpenseBox = false },
+            onDismissRequest = {
+                addExpenseBox = false
+                categoryOption = ""
+                newExpenseValue = ""
+            },
             confirmButton = {
                 Button(onClick = {
                     addExpenseBox = false
+                    categoryOption = ""
+                    newExpenseValue = ""
                 }) {
                     Text("Cancel")
 
                 }
 
                 Button(onClick = {
-                    if (newValue.isNotBlank() && categoryOption.isNotBlank()) {
+                    if (newExpenseValue.isNotBlank() && categoryOption.isNotBlank()) {
                         val newExpense =
-                            Expense(id = expenseList.size + 1, categoryOption, newValue.toInt(), "")
+                            Expense(id = expenseList.size + 1, categoryOption, newExpenseValue, "")
+                        currentBalance = (currentBalance.toDouble() - newExpenseValue.toDouble()).toString()
+                        valueSpent = (valueSpent.toDouble() + newExpenseValue.toDouble()).toString()
                         expenseList = expenseList + newExpense
                     }
+                    categoryOption = ""
+                    newExpenseValue = ""
                     addExpenseBox = false
                 }) {
                     Text("Confirm")
@@ -182,8 +192,8 @@ fun OverviewScreen() {
                     )
 
                     OutlinedTextField(
-                        value = newValue,
-                        onValueChange = { newValue = it },
+                        value = newExpenseValue,
+                        onValueChange = { newExpenseValue = it },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(4.dp)
@@ -203,7 +213,8 @@ fun ExpenseListItem(
     onClickExpand: () -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(8.dp)
             .border(
                 border = BorderStroke(2.dp, Color.Black),
@@ -213,7 +224,7 @@ fun ExpenseListItem(
     ) {
 
         Text(item.category, modifier = Modifier.padding(8.dp))
-        Text("€${item.expenseValue}", modifier = Modifier.padding(8.dp))
+        Text("€${item.expenseString}", modifier = Modifier.padding(8.dp))
 
     }
 }
