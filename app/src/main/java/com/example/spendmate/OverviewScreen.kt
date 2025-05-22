@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.AlertDialog
@@ -67,7 +68,8 @@ fun OverviewScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Text("Your Current Balance: $currentBalance")
+        Text("Your Current Balance: ")
+        Text("€ $currentBalance", fontWeight = FontWeight.Bold, fontSize = 24.sp)
 
         Card(
             modifier = Modifier
@@ -162,7 +164,8 @@ fun OverviewScreen() {
                     if (newExpenseValue.isNotBlank() && categoryOption.isNotBlank()) {
                         val newExpense =
                             Expense(id = expenseList.size + 1, categoryOption, newExpenseValue, "")
-                        currentBalance = (currentBalance.toDouble() - newExpenseValue.toDouble()).toString()
+                        currentBalance =
+                            (currentBalance.toDouble() - newExpenseValue.toDouble()).toString()
                         valueSpent = (valueSpent.toDouble() + newExpenseValue.toDouble()).toString()
                         expenseList = expenseList + newExpense
                     }
@@ -225,6 +228,10 @@ fun ExpenseListItem(
 
         Text(item.category, modifier = Modifier.padding(8.dp))
         Text("€${item.expenseString}", modifier = Modifier.padding(8.dp))
+        IconButton(onClick = {
+            onClickExpand()
+        }) { Icon(Icons.Default.KeyboardArrowDown, contentDescription = null) }
+
 
     }
 }
