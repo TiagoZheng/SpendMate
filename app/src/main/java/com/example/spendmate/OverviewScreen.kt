@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -73,6 +74,8 @@ fun OverviewScreen() {
         Text("Your Current Balance: ")
         Text("€ $currentBalance", fontWeight = FontWeight.Bold, fontSize = 24.sp)
 
+        // Expense Income Tab
+        Spacer(modifier = Modifier.height(8.dp))
         TabRow(selectedTabIndex = expenseIncomeSelected) {
             expenseIncomeTabs.forEachIndexed { i, title ->
                 Tab(
@@ -82,7 +85,8 @@ fun OverviewScreen() {
             }
         }
 
-
+        // Day, Month, Year Tab
+        Spacer(modifier = Modifier.height(8.dp))
         TabRow(
             selectedTabIndex = selectedTab,
             modifier = Modifier.fillMaxWidth()
@@ -96,15 +100,17 @@ fun OverviewScreen() {
             }
         }
 
+        // Main center display, add expenses total spent
         Card(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
         ) {
-
-
+            // Move back and forward dates
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -117,25 +123,29 @@ fun OverviewScreen() {
                 IconButton(onClick = {}) {
                     Icon(Icons.Default.KeyboardArrowRight, contentDescription = null)
                 }
-
             }
 
+            // Total spent section display and add expense button
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
-                Text("Spent: €$valueSpent", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    "Spent: €$valueSpent",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(8.dp)
+                )
                 Button(onClick = {
                     addExpenseBox = true
-                }) {
+                }, modifier = Modifier.padding(8.dp)) {
                     Text("+")
                 }
             }
         }
 
+        // Display all expenses added
         val context = LocalContext.current
         LazyColumn(
             modifier = Modifier
@@ -225,9 +235,11 @@ fun ExpenseListItem(
     item: Expense,
     onClickExpand: () -> Unit
 ) {
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .padding(4.dp)) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(4.dp)
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
