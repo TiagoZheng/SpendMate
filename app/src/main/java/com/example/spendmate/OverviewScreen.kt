@@ -1,6 +1,8 @@
 package com.example.spendmate
 
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,8 +16,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.AlertDialog
@@ -34,7 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -123,6 +125,7 @@ fun OverviewScreen() {
                 IconButton(onClick = {}) {
                     Icon(Icons.Default.KeyboardArrowRight, contentDescription = null)
                 }
+
             }
 
             // Total spent section display and add expense button
@@ -235,28 +238,21 @@ fun ExpenseListItem(
     item: Expense,
     onClickExpand: () -> Unit
 ) {
-    Card(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(4.dp)
+            .padding(8.dp)
+            .border(
+                border = BorderStroke(2.dp, Color.Black),
+                shape = RoundedCornerShape(20)
+            ),
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(4.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
 
-            Text(item.category, modifier = Modifier.padding(8.dp))
-            Text("€${item.expenseString}", modifier = Modifier.padding(8.dp))
-            IconButton(onClick = {
-                onClickExpand()
-            }) { Icon(Icons.Default.KeyboardArrowDown, contentDescription = null) }
+        Text(item.category, modifier = Modifier.padding(8.dp))
+        Text("€${item.expenseString}", modifier = Modifier.padding(8.dp))
 
-
-        }
     }
-
 }
 
 @Preview(showBackground = true)
