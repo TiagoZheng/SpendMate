@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -32,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun AddExpenseScreen() {
+fun AddExpenseScreen(navigateToOverviewScreen: () -> Unit) {
 
     var expenseValue by remember { mutableStateOf("") }
     var expenseCategory by remember { mutableStateOf("") }
@@ -54,7 +55,12 @@ fun AddExpenseScreen() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Icon(Icons.Default.KeyboardArrowLeft, contentDescription = null)
+            Button(
+                onClick = navigateToOverviewScreen
+            ) {
+                Icon(Icons.Default.KeyboardArrowLeft, contentDescription = null)
+            }
+
             Text("Add Expense", fontSize = 24.sp, fontWeight = FontWeight.Bold)
         }
 
@@ -75,7 +81,9 @@ fun AddExpenseScreen() {
         }
         TextField(value = expenseCategory, onValueChange = { expenseCategory = it })
 
-        Icon(Icons.Default.KeyboardArrowDown, contentDescription = null)
+        Button(onClick = {}) {
+            Icon(Icons.Default.KeyboardArrowDown, contentDescription = null)
+        }
 
 
         Text("Expense Description")
@@ -90,5 +98,6 @@ fun AddExpenseScreen() {
 @Preview(showBackground = true)
 @Composable
 fun AddExpensePreview() {
-    AddExpenseScreen()
+    AddExpenseScreen({})
+
 }

@@ -17,8 +17,24 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             SpendMateTheme {
-               // SpendMateApp(navController)
-                OverviewScreen()
+                MyApp()
+            }
+        }
+    }
+}
+
+@Composable
+fun MyApp() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "overviewscreen") {
+        composable("overviewscreen") {
+            OverviewScreen {
+                navController.navigate("addexpensescreen")
+            }
+        }
+        composable("addexpensescreen") {
+            AddExpenseScreen {
+                navController.navigate("overviewscreen")
             }
         }
     }

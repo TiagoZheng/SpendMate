@@ -51,7 +51,9 @@ data class Expense(
 )
 
 @Composable
-fun OverviewScreen() {
+fun OverviewScreen(
+    navigateToAddExpense: () -> Unit
+) {
     var expenseList by remember { mutableStateOf(listOf<Expense>()) }
     var currentBalance by remember { mutableStateOf("0") }
     var categoryOption by remember { mutableStateOf("") }
@@ -102,7 +104,7 @@ fun OverviewScreen() {
             }
         }
 
-        // Main center display, add expenses total spent
+        // Main center display, add expenses display total spent
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -141,7 +143,7 @@ fun OverviewScreen() {
                     modifier = Modifier.padding(8.dp)
                 )
                 Button(onClick = {
-                    addExpenseBox = true
+                    navigateToAddExpense()
                 }, modifier = Modifier.padding(8.dp)) {
                     Text("+")
                 }
@@ -258,5 +260,5 @@ fun ExpenseListItem(
 @Preview(showBackground = true)
 @Composable
 fun OverviewPreview() {
-    OverviewScreen()
+    OverviewScreen({})
 }
