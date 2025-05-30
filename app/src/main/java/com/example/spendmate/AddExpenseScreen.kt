@@ -87,11 +87,15 @@ fun AddExpenseScreen(navigateToOverviewScreen: () -> Unit) {
 
 
         Text("Expense Description")
-        TextField(value = expenseDescription, onValueChange = { expenseDescription = it })
+        TextField(value = expenseDescription, onValueChange = { expenseDescription = it }, )
 
+
+        Button(onClick ={
+            navigateToOverviewScreen()
+        } ) {
+            Text("Done")
+        }
     }
-
-
 }
 
 
