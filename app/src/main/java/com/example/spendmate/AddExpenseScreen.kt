@@ -1,7 +1,7 @@
 package com.example.spendmate
 
-import android.R.attr.category
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +19,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -59,9 +60,7 @@ fun AddExpenseScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Button(
-                onClick = navigateToOverviewScreen
-            ) {
+            IconButton(onClick = navigateToOverviewScreen) {
                 Icon(Icons.Default.KeyboardArrowLeft, contentDescription = null)
             }
 
@@ -75,19 +74,56 @@ fun AddExpenseScreen(
         TextField(value = expenseValue, onValueChange = { expenseValue = it })
 
 
-
         Text("Expense Category: ")
-        DropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = false }) {
-            DropdownMenuItem(
-                text = { Text("Restaurant") },
-                onClick = {}
-            )
-        }
-        TextField(value = expenseCategory, onValueChange = { expenseCategory = it })
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Button(onClick = { isExpanded = true }) {
+                Text(expenseCategory)
+                Icon(Icons.Default.KeyboardArrowDown, contentDescription = null)
+            }
 
-        Button(onClick = {}) {
-            Icon(Icons.Default.KeyboardArrowDown, contentDescription = null)
+            DropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = true }) {
+                DropdownMenuItem(
+                    text = { Text("Restaurant") },
+                    onClick = {
+                        expenseCategory = "Restaurant"
+                        isExpanded = false
+                    }
+                )
+
+                DropdownMenuItem(
+                    text = { Text("Restaurant") },
+                    onClick = {
+                        expenseCategory = "Restaurant"
+                        isExpanded = false
+                    }
+                )
+
+                DropdownMenuItem(
+                    text = { Text("Transports") },
+                    onClick = {
+                        expenseCategory = "Transports"
+                        isExpanded = false
+                    }
+                )
+
+                DropdownMenuItem(
+                    text = { Text("Groceries") },
+                    onClick = {
+                        expenseCategory = "Groceries"
+                        isExpanded = false
+                    }
+                )
+
+                DropdownMenuItem(
+                    text = { Text("Leisure") },
+                    onClick = {
+                        expenseCategory = "Leisure"
+                        isExpanded = false
+                    }
+                )
+            }
         }
+
 
 
         Text("Expense Description")
@@ -115,6 +151,6 @@ fun AddExpenseScreen(
 @Preview(showBackground = true)
 @Composable
 fun AddExpensePreview() {
-    // AddExpenseScreen({})
+    //AddExpenseScreen({}, null)
 
 }
