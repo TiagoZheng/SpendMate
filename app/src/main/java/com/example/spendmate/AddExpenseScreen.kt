@@ -1,7 +1,8 @@
 package com.example.spendmate
 
+import android.R.attr.onClick
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,8 +53,9 @@ fun AddExpenseScreen(
             .padding(WindowInsets.safeDrawing.asPaddingValues())
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
 
-        ) {
+    ) {
 
         // Activity Title and back button
         Row(
@@ -71,17 +74,40 @@ fun AddExpenseScreen(
 
         // Input value expense amount section
         Text("Amount")
-        TextField(value = expenseValue, onValueChange = { expenseValue = it })
+        TextField(
+            value = expenseValue,
+            onValueChange = { expenseValue = it },
+            modifier = Modifier.fillMaxWidth()
+        )
 
+        Text("Expense Description")
+        TextField(
+            value = expenseDescription,
+            onValueChange = { expenseDescription = it },
+            modifier = Modifier.fillMaxWidth()
+        )
 
         Text("Expense Category: ")
-        Box(modifier = Modifier.fillMaxWidth()) {
-            Button(onClick = { isExpanded = true }) {
-                Text(expenseCategory)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            TextField(
+                value = expenseCategory,
+                onValueChange = { expenseCategory = it},
+                readOnly = true,
+
+            )
+
+            IconButton(
+                onClick = { isExpanded = true },
+            ) {
                 Icon(Icons.Default.KeyboardArrowDown, contentDescription = null)
             }
 
-            DropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = true }) {
+            DropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = false }) {
                 DropdownMenuItem(
                     text = { Text("Restaurant") },
                     onClick = {
@@ -124,11 +150,7 @@ fun AddExpenseScreen(
             }
         }
 
-
-
-        Text("Expense Description")
-        TextField(value = expenseDescription, onValueChange = { expenseDescription = it })
-
+        // Check if all filled if yes saves expense
         Button(onClick = {
             if (expenseValue.isNotBlank() && expenseCategory.isNotBlank()) {
                 expenseViewModel.addExpense(
@@ -144,6 +166,8 @@ fun AddExpenseScreen(
         }) {
             Text("Done")
         }
+
+
     }
 }
 
