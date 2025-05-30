@@ -45,8 +45,8 @@ fun OverviewScreen(
 ) {
 
     val expenseList = expenseViewModel.expenseList
-    val currentBalance = expenseViewModel.currentBalance
-    val totalSpent = expenseViewModel.totalSpent
+    val currentBalance = expenseViewModel.currentBalance.value
+    val totalSpent = expenseViewModel.totalSpent.value
 
     var expenseIncomeTabs = listOf("EXPENSE", "INCOME")
     var expenseIncomeSelected by remember { mutableStateOf(0) }
@@ -63,7 +63,7 @@ fun OverviewScreen(
     ) {
 
         Text("Your Current Balance: ")
-        Text("€ $currentBalance", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+        Text("€%.2f".format(currentBalance), fontWeight = FontWeight.Bold, fontSize = 24.sp)
 
         // Expense Income Tab
         Spacer(modifier = Modifier.height(8.dp))
@@ -124,7 +124,7 @@ fun OverviewScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    "Spent: €$totalSpent",
+                    "Spent: €%.2f".format(totalSpent),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(8.dp)

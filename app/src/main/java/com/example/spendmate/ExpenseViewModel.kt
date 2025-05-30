@@ -16,6 +16,4 @@ class ExpenseViewModel: ViewModel() {
         currentBalance.value -= expense.expenseString.toDouble()
         totalSpent.value += expense.expenseString.toDouble()
     }
-
-
 }
