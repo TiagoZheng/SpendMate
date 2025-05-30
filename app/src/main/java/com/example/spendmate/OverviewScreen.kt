@@ -1,8 +1,6 @@
 package com.example.spendmate
 
 import android.widget.Toast
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,16 +14,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -36,7 +31,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -135,9 +129,7 @@ fun OverviewScreen(
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(8.dp)
                 )
-                Button(onClick = {
-                    navigateToAddExpense()
-                }, modifier = Modifier.padding(8.dp)) {
+                Button(onClick = navigateToAddExpense, modifier = Modifier.padding(8.dp)) {
                     Text("+")
                 }
             }
@@ -168,21 +160,19 @@ fun ExpenseListItem(
     item: Expense,
     onClickExpand: () -> Unit
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .border(
-                border = BorderStroke(2.dp, Color.Black),
-                shape = RoundedCornerShape(20)
-            ),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
+    Card {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(item.category, modifier = Modifier.padding(8.dp))
+            Text("€${item.expenseString}", modifier = Modifier.padding(8.dp))
 
-        Text(item.category, modifier = Modifier.padding(8.dp))
-        Text("€${item.expenseString}", modifier = Modifier.padding(8.dp))
-
+        }
     }
+
 }
 
 @Preview(showBackground = true)

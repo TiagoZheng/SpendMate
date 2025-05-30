@@ -30,16 +30,17 @@ fun MyApp(expenseViewModel: ExpenseViewModel) {
 
     NavHost(navController = navController, startDestination = "overview") {
         composable("overview") {
-            OverviewScreen (
-                navigateToAddExpense ={ navController.navigate("addExpense") },
+            OverviewScreen(
+                navigateToAddExpense = { navController.navigate("addExpense") },
                 expenseViewModel = expenseViewModel
             )
         }
 
         composable("addExpense") {
-            AddExpenseScreen {
-                navController.navigate("overview")
-            }
+            AddExpenseScreen(
+                navigateToOverviewScreen = { navController.navigate("overview") },
+                expenseViewModel = expenseViewModel
+            )
         }
     }
 }

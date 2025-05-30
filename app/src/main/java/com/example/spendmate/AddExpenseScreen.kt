@@ -1,5 +1,6 @@
 package com.example.spendmate
 
+import android.R.attr.category
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,7 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun AddExpenseScreen(navigateToOverviewScreen: () -> Unit) {
+fun AddExpenseScreen(
+    navigateToOverviewScreen: () -> Unit,
+    expenseViewModel: ExpenseViewModel
+) {
 
     var expenseValue by remember { mutableStateOf("") }
     var expenseCategory by remember { mutableStateOf("") }
@@ -87,12 +91,21 @@ fun AddExpenseScreen(navigateToOverviewScreen: () -> Unit) {
 
 
         Text("Expense Description")
-        TextField(value = expenseDescription, onValueChange = { expenseDescription = it }, )
+        TextField(value = expenseDescription, onValueChange = { expenseDescription = it })
 
-
-        Button(onClick ={
+        Button(onClick = {
+            if (expenseValue.isNotBlank() && expenseCategory.isNotBlank()) {
+                expenseViewModel.addExpense(
+                    Expense(
+                        id = expenseViewModel.expenseList.size + 1,
+                        category = expenseCategory,
+                        expenseString = expenseValue,
+                        expenseDescription = expenseDescription
+                    )
+                )
+            }
             navigateToOverviewScreen()
-        } ) {
+        }) {
             Text("Done")
         }
     }
@@ -102,6 +115,6 @@ fun AddExpenseScreen(navigateToOverviewScreen: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun AddExpensePreview() {
-    AddExpenseScreen({})
+    // AddExpenseScreen({})
 
 }
