@@ -160,7 +160,7 @@ fun ExpenseListItem(
     item: Expense,
     onClickExpand: () -> Unit
 ) {
-    Card {
+    Card(modifier = Modifier.padding(8.dp)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
